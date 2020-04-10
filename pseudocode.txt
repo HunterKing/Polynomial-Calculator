@@ -1,0 +1,68 @@
+Hunter King & Joe Story
+Polynomial Long-Division Pseudocode
+
+In theory: express a polynomial as a list of tuples sorted by [{coeff, deg}, {c, d}, ... ]
+e.g.: x^4 + 2x^2 + 5 would be expressed as:
+[{1,4}, {0,3}, {2,2}, {0,1}, {5, 0}]
+
+main:
+	Input polynomial 1
+	Input polynomial 2
+	call tuple-ify with poly1
+	call tuple-ify with poly2
+	call checkDegree -> call compute
+	call string-ify with first result of compute
+	print string
+	call string-ify with second result of compute
+	print string
+	
+checkDegree :: tuple -> Bool
+	check polynomial 2's degree is less than polynomial 1
+	
+tuple-ify :: String -> tuple []
+	call takeWhile
+	add to tuple
+	call takeWhile on remainder of string
+	add to tuple
+	recurse until end of string
+	return tuple list
+	
+string-ify :: tuple [] -> String
+	append coefficient
+	add fst variable
+	append carat
+	add snd variable
+	recurse until end of tuple list
+	return string
+	
+isNum :: Char -> Bool
+	isNum c = '0' <= c && c <= '9'
+	
+takeWhile :: tuple [] -> String
+	create string
+	run isNum on first character of string
+	take first character of string
+	recurse until isNum returns false
+	call readNumber
+	
+readNumber :: String -> int
+	convert string to number using (read s)
+
+goesInto :: tuple [] -> tuple [] -> tuple [] (this last tuple is a singlular element)
+	returns the number of times the first tuple list goes into the second
+
+partMultiply :: tuple [] -> tuple [] -> tuple []
+	based upon exponents, we multiply the number into every element of the tuple list except the first
+
+subtractTups :: tuple [] -> tuple [] -> tuple []
+	return the difference between 2 inputted tuple lists
+
+compute :: tuple [] -> tuple []
+	call goesInto
+	call partMultiply
+	call subtractTups and replace the returned list into the beginning of the dividend
+	call amendTuple 
+	once finished return to main with answer tuple
+	divide the first tuple element of poly 2 into poly 1
+	recurse until the degree of poly 1 is zero or it is lower than poly 2
+	return new polynomial and remainder if the degree is not zero
