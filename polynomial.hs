@@ -23,4 +23,17 @@ takeStringWhile :: String -> String
 takeStringWhile [] = ""
 takeStringWhile (s:ss) = if (isNum s) then [s] ++ takeStringWhile ss else takeStringWhile ""
 
+--gaming
+stringSplitter :: String -> (String)
+stringSplitter [] = ""
+stringSplitter (s:ss) 
+    | s == '+' = append stringSplitter ss
+    | s == '-' = '-' : stringSplitter ss
+    | isNum s = 
+    | otherwise = stringSplitter ""
+
+gamingSplitter :: String -> (String)
+gamingSplitter [] = ""
+
+
 --takeStringWhile n:ns = if isNum n then append s (readNumber n) takeWhile ns
