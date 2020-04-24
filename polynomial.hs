@@ -1,3 +1,5 @@
+import Data.List
+
 main = do
     putStrLn "Enter a divisor polynomial"
     rawform <- getLine
@@ -6,34 +8,36 @@ main = do
     putStrLn "Enter a dividend polynomial"
     rawform2 <- getLine
     --let form2 = read rawform2 :: String
-    -- putStrLn(show rawform)
-    -- putStrLn(show rawform2)
-    putStrLn(show (tupleify rawform))
+    putStrLn(show rawform)
+    putStrLn(show rawform2)
+    putStrLn(show (splitString [rawform]))
 
+--Checks if a character is a number.
 isNum :: Char -> Bool
 isNum c = '0' <= c && c <= '9'
 
-tupleify :: String -> [(Integer, Integer)]
-tupleify x = [(readNumber(takeStringWhile x), 0)]
+--Takes a list of strings and return a list of coeff, exponent pairs.
+tupleify :: [String] -> [(Integer, Integer)]
+tupleify (x:xs) = [(readNumber(findValue x), 0)]
 
+-- Take an input string and return it split as a list of coeff, variable, and exponent.
+splitString :: [String] -> [String]
+splitString (x:xs) = (split '+' x)
+
+--Convert a string into an Integer value.
 readNumber :: String -> Integer
 readNumber s = read s :: Integer
 
-takeStringWhile :: String -> String
-takeStringWhile [] = ""
-takeStringWhile (s:ss) = if (isNum s) then [s] ++ takeStringWhile ss else takeStringWhile ""
+--Will search a string for the numbers in the coeffiecient or the degree.
+findValue :: String -> String
+findValue [] = ""
+findValue (s:ss) = if (isNum s) then [s] ++ findValue ss else "1" ++ findValue ""
 
---gaming
-stringSplitter :: String -> (String)
-stringSplitter [] = ""
-stringSplitter (s:ss) 
-    | s == '+' = append stringSplitter ss
-    | s == '-' = '-' : stringSplitter ss
-    | isNum s = 
-    | otherwise = stringSplitter ""
+--Splits a string into a list of strings around a delimiter character.
+split :: Eq a => a -> [a] -> [[a]]
+split d [] = []
+split d s = x : split d (drop 1 y) where (x,y) = span (/= d) s
 
-gamingSplitter :: String -> (String)
-gamingSplitter [] = ""
-
-
---takeStringWhile n:ns = if isNum n then append s (readNumber n) takeWhile ns
+splitma :: Eq a => a -> [a] -> [[a]]
+splitma d [] = []
+--splitma d (x:xs) = if (d == x) then d : splitma xs else splitma xs
