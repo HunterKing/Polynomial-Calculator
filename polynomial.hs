@@ -8,9 +8,8 @@ main = do
     putStrLn "Enter a dividend polynomial"
     rawform2 <- getLine
     --let form2 = read rawform2 :: String
-    putStrLn(show rawform)
-    putStrLn(show rawform2)
     putStrLn(show (splitString [rawform]))
+    putStrLn(show (tupleify(splitString [rawform])))
 
 --Checks if a character is a number.
 isNum :: Char -> Bool
@@ -18,7 +17,7 @@ isNum c = '0' <= c && c <= '9'
 
 --Takes a list of strings and return a list of coeff, exponent pairs.
 tupleify :: [String] -> [(Integer, Integer)]
-tupleify (x:xs) = [(readNumber(findValue x), 0)]
+tupleify (x:xs) = [(readNumber(findValue x), readNumber(findValue x))]
 
 -- Take an input string and return it split as a list of coeff, variable, and exponent.
 splitString :: [String] -> [String]
@@ -38,6 +37,3 @@ split :: Eq a => a -> [a] -> [[a]]
 split d [] = []
 split d s = x : split d (drop 1 y) where (x,y) = span (/= d) s
 
-splitma :: Eq a => a -> [a] -> [[a]]
-splitma d [] = []
---splitma d (x:xs) = if (d == x) then d : splitma xs else splitma xs
