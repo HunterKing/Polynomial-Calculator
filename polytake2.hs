@@ -1,16 +1,28 @@
+import Data.List.Split
+import Data.List
+
 main = do
     putStrLn "Enter a divisor"
     rawform <- getLine
+    putStrLn(show (removeEmpty (splitString rawform)))
     
-    putStrLn(show (splitNeg (splitPos rawform)))
 
-splitPos :: String -> [String]
-splitPos x = split '+' x
+splitString :: String -> [String]
+splitString x = split (keepDelimsL $ oneOf "+-") x
 
-splitNeg :: [String] -> [String]
-splitNeg [(x:xs)] = ["-"] ++ split '-' x : splitNeg [(x:xs)]
+removeEmpty :: [String] -> [String]
+removeEmpty x = filterNot (`elem` [""]) x
 
---Splits a string into a list of strings around a delimiter character.
-split :: Eq a => a -> [a] -> [[a]]
-split d [] = []
-split d s = x : split d (drop 1 y) where (x,y) = span (/= d) s
+tuplema :: [String] -> [(Integer, Integer)]
+tuplema x
+
+eqToTuple :: String -> (Integer, Integer)
+eqToTuple x = 
+
+-- helper Functios
+--Convert a string into an Integer value.
+readNumber :: String -> Integer
+readNumber s = read s :: Integer
+
+filterNot :: (a -> Bool) -> [a] -> [a]
+filterNot pred = filter $ not . pred
