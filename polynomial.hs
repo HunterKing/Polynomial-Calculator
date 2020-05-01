@@ -6,28 +6,34 @@ import Data.List
 main = do
     putStrLn "Enter a divisor"
     rawform <- getLine
-    putStrLn(show (splitString rawform))
-    putStrLn(show (degreeFinder (splitString rawform)))
-    putStrLn(show (zeroListBuild (length (degreeFinder (splitString rawform)))))
-    putStrLn(show (coef (zeroListBuild (length (degreeFinder (splitString rawform)))) (splitString rawform)))
-    -- putStrLn(show (coefficient(splitString rawform)))
+    putStrLn(show (splitString 1 rawform))
+    putStrLn(show (degreeFinder (splitString 1 rawform)))
+    putStrLn(show (zeroListBuild (length (degreeFinder (splitString 1 rawform)))))
     
 
-splitString :: String -> [String]
-splitString x = removeEmpty (split (keepDelimsL $ oneOf "+-^") x)
-
+splitString :: Integer -> String -> [String]
+splitString 0 x = removeEmpty (split (keepDelimsL $ oneOf "+-^") x)
+splitString 1 x = removeEmpty (split (keepDelimsL $ oneOf "+-") x)
 degreeFinder :: [String] -> [Integer]
 degreeFinder [] = []
 degreeFinder ((x:cs):xs) = if (x == '^') then expListBuild [readNumber cs] else degreeFinder xs
 
+-- makeCoefList :: Integer -> [String] -> [Integer]
+-- makeCoefList 0 [x] = readNumber x               -- if degree is 0, polynomial is a constant
+-- makeCeofList n lst =
+--    let (x,y) = findCoefAndRemove n lst
+--    in x : makeCoefList (n-1) y
 
-coef :: [Integer] -> [String] -> [Integer]
-coef [] [] = []
-coef [] [s] = []
-coef [x] [] = [x]
-coef (x:xs) ((t:ts):ss)  
-   | ((expo (t:ts)) > 0) = [0] --coef (replaceNth ((expo (t:ts)) - 1) (readNumber ts) (x:xs)) ss 
-   | otherwise = coef (x:xs) [] 
+findCoef :: Integer -> [String] -> (String, Integer)
+findCoef n (t:ts) 
+    | (isInfixOf "^n" t) = (findValue t, n)
+
+-- findCoefAndRemove :: Integer -> [String] -> (Integer, [String])
+-- findCoefAndRemove n (t : ts) =   "if t = ___^n then (___,ts) 
+                                    -- else let (x,y) = findCoefAndRemove n ts
+                                    --  in (x, t : y) "
+
+
 
 -- helper Functios
 --Convert a string into an Integer value.
@@ -65,9 +71,3 @@ removeEmpty x = filterNot (`elem` [""]) x
 expo :: String -> Integer
 expo [] = 0
 expo (s:ss) = if (s == '^') then readNumber ss else expo ss
-
-replaceNth :: Integer -> a -> [a] -> [a]
-replaceNth _ _ [] = []
-replaceNth n newVal (x:xs)
-  | n == 0 = newVal:xs
-  | otherwise = x:replaceNth (n-1) newVal xs
