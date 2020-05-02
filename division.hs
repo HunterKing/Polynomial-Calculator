@@ -9,18 +9,21 @@ divide [x] [] = [x]
 --If we try to divide zero by something, return zero.
 divide [] [y] = [(0,0)]
 --Otherwise, proceed.
-divide (x1:x2:xs) (y1:y2:ys)
+divide ((x1,x2):xs) ((y1,y2):ys)
     --If the degree of the term being divided is greater than that it is being divided by, multiply that term until it is equal.
-    | (x2 > y2) = (multiply y2 y2 [] x2)
+    | (x2 > y2) = (multiply ys ys x2)
     | otherwise = []
 
-multiply :: [(Integer, Integer)] -> [(Integer, Integer)] -> [(Integer, Integer)] -> Integer -> [(Integer, Integer)]
+multiply :: [(Integer, Integer)] -> [(Integer, Integer)] -> Integer -> [(Integer, Integer)]
 --Cannot multiply two empty lists.
-multiply [] [] _ 0 = []
+multiply [] [] _ = []
 --If we try to multiply a list by an empty list, return itself.
-multiply [x] [] _ _ = [x]
-multiply [] [y] _ _ = [y]
+multiply [x] [] _ = [x]
+multiply [] [y] _ = [y]
 --Otherwise, multiply until the degree passed as an Integer is met.
-multiply (x1:x2:xs) (y1:y2:ys) _  n := []
---  | []
---  | otherwise = []
+multiply ((x1,x2):xs) ((y1,y2):ys) n
+  | (x2 > y2) =  [(0,0)]
+  | otherwise = []
+  let z1 = x1 * y1
+  let z2 = x2 + y2
+  --z1 = x1 * y1
