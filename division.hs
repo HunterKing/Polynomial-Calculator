@@ -22,7 +22,7 @@ multiply [x] [] _ = [x]
 multiply [] [y] _ = [y]
 --Otherwise, multiply until the degree passed as an Integer is met.
 multiply ((x1,x2):xs) ((y1,y2):ys) n
-  | (x2 > y2) =  [(0,0)]
+  | (x2 > y2) = (x1*y1, x2+y2) : ((x1,x2):xs) (y2):ys
   | otherwise = []
   let z1 = x1 * y1
   let z2 = x2 + y2
