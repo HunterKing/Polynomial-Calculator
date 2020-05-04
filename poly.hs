@@ -1,7 +1,14 @@
 
+-- main = do 
+--     putStrLn "Enter a divisor in form (Coefficient"
+--     x <- getLine
+--     putStrLn "Enter a dividend"
+--     y <- getLine
+--     putStrLn (show (dividePolynomials x )) 
 
 
 
+----------------- main functions --------------------------------
 multiplyPolynomials :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Integer)]
 multiplyPolynomials x y = hasDuplicate (quicksort (multiplyEqs x y))
 
@@ -9,6 +16,14 @@ dividePolynomials :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Int
 dividePolynomials [] y = []
 dividePolynomials x y = if ((findDegree y) < (findDegree x)) then answer ++ (dividePolynomials (cleanFront (subtractEqs x (cleanFront (multiplyPolynomials y answer)))) y) else answer
    where answer = cleanFront (hasDuplicate (quicksort (divideEqs [head x] [head y])))
+
+subtractEqs :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Integer)]
+subtractEqs x y = hasDuplicate (quicksort (x++(inverseEq y)))
+
+addEqs :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Integer)]
+addEqs x y = hasDuplicate (quicksort (x++y))
+
+------------------- helper functions ---------------------------
 
 getRemainder :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Integer)]
 getRemainder [] y = []
@@ -32,8 +47,6 @@ multiplyEqs :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Integer)]
 multiplyEqs [(x1,x2)] y = zip (map (x1*) (splitListC y)) (map (x2+) (splitListP y)) ++ []
 multiplyEqs ((x1,x2):rest) y =  zip (map (x1*) (splitListC y)) (map (x2+) (splitListP y)) ++ (multiplyEqs rest y)
 
-subtractEqs :: [(Integer,Integer)] -> [(Integer,Integer)] -> [(Integer,Integer)]
-subtractEqs x y = hasDuplicate (quicksort (x++(inverseEq y)))
 
 inverseEq :: [(Integer, Integer)] -> [(Integer, Integer)]
 inverseEq [] = []
